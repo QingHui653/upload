@@ -1,0 +1,10 @@
+version: '2'
+services:
+  web:
+    container_name: compose
+    build: .
+    image: boot
+    volumes:
+      - ./src:/usr/app/nginx/html
+    ports:
+      - "8081:8080"

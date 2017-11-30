@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>上传 文件</title>
+
+<link href="https://cdn.bootcss.com/element-ui/1.3.7/theme-default/index.css" rel="stylesheet"></link>
+<script src="https://cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/1.3.7/index.js"></script>
+
+<script src="plupload.full.min.js"></script>
+
+</head>
+<body>
+<div id="app">
+<el-upload
+  class="upload-demo"
+  drag
+  action="http://127.0.0.1:8080/upload"
+  multiple>
+  <i class="el-icon-upload"></i>
+  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+</div>
+<br>
+<input type="button" id="import" value="导入">
+
+</body>
+
+<script>
+var vm = new Vue({
+    el: '#app'
+})
+
+var uploader = new plupload.Uploader({
+	runtimes : 'html5',
+	browse_button : 'import', //这个是点击上传的html标签的id,可以a,button等等
+	url : 'http://127.0.0.1:8080/upload',//上传的地址
+	init: {
+		FilesAdded: function(up, files) {
+			plupload.each(files, function(file) {
+				uploader.start();
+			});
+		},
+		
+		FileUploaded:function(up,file,responseObject) {
+			console.info(responseObject['response']);
+		}
+	}
+});
+uploader.init();
+
+</script>
+
+</html>
