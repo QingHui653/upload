@@ -77,11 +77,11 @@ public class JobController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value="/banner")
+    /*@RequestMapping(value="/banner")
     @ResponseBody
     public Map banner ()throws IOException {
         return Collections.singletonMap("key",IOUtils.toString(getClass().getClassLoader().getResourceAsStream("banner.txt"), "UTF-8"));
-    }
+    }*/
 
     /**
      * 区域信息
