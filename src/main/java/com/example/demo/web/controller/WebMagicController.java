@@ -59,8 +59,6 @@ public class WebMagicController {
         //调用selenium，进行模拟登录
         mima.login();
         Spider.create(mima)
-//                .addUrl("https://www.shuaigay.win/forum.php")
-                .addUrl("https://www.shuaigay.win/thread-893321-1-1.html")
                 .addPipeline(mimaPipeline)
                 .thread(10)
                 .run();
