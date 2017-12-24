@@ -1,12 +1,15 @@
 package com.example.demo.web.controller;
 
 import com.example.demo.spring.service.model.Movie;
+import com.example.demo.spring.service.model.nove.Nove;
+import com.example.demo.spring.service.model.nove.Title;
 import com.example.demo.spring.service.service.IMongoService;
 import com.example.demo.web.tool.Pager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,5 +69,66 @@ public class MongoController {
             movielist.add(movie);
         }
         mongoTemplate.insertAll(movielist);
+    }
+
+    @GetMapping("findNovePage")
+    public Object findNovePage(@RequestParam(required = false) Map<String,String> map, Pager pager){
+        Criteria criteria = new Criteria();
+        pager.setCurrentPage(Integer.valueOf(map.get("page")));
+        pager.setPageSize(Integer.valueOf(map.get("limit")));
+        if(map.get("key[name]")!=null&&map.get("key[name]").length()>0){
+            criteria.andOperator(Criteria.where("name").regex(map.get("key[name]")));
+        }
+        if(map.get("key[noveType]")!=null&&map.get("key[noveType]").length()>0){
+            criteria.andOperator(Criteria.where("noveType").regex(map.get("key[noveType]")));
+        }
+        if(map.get("key[titleType]")!=null&&map.get("key[titleType]").length()>0){
+            criteria.andOperator(Criteria.where("titleType").regex(map.get("key[titleType]")));
+        }
+        Query query = new Query();
+        query.addCriteria(criteria);
+        long count = mongoTemplate.count(query, Nove.class);
+
+        query.skip((pager.getCurrentPage()-1)*pager.getPageSize());
+        query.limit(pager.getPageSize());
+        List list = mongoTemplate.find(query,Nove.class);
+
+        /*pager.setList(list);
+        pager.setCount((int)count);*/
+        Map retMap = new HashMap();
+        retMap.put("code",0);
+        retMap.put("count",(int)count);
+        retMap.put("data",list);
+        retMap.put("msg","");
+        return retMap;
+    }
+
+    @GetMapping("findTitlePage")
+    public Object findTitlePage(@RequestParam(required = false) Map<String,String> map,String noveId, Pager pager){
+        pager.setPageSize(20);
+        if(map.get("page")!=null){
+            pager.setCurrentPage(Integer.valueOf(map.get("page")));
+        }
+        Criteria criteria = new Criteria();
+        if(noveId!=null&&noveId.length()>0){
+            criteria =Criteria.where("noveId").is(noveId);
+        }
+        Query query = new Query();
+        query.addCriteria(criteria);
+        long count = mongoTemplate.count(query, Title.class);
+
+        query.skip((pager.getCurrentPage()-1)*pager.getPageSize());
+        query.limit(pager.getPageSize());
+        query.with(new Sort("index"));
+        List list = mongoTemplate.find(query,Title.class);
+
+        /*pager.setList(list);
+        pager.setCount((int)count);*/
+        Map retMap = new HashMap();
+        retMap.put("code",0);
+        retMap.put("count",(int)count);
+        retMap.put("data",list);
+        retMap.put("msg","");
+        return retMap;
     }
 }
