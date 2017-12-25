@@ -104,7 +104,6 @@ public class Mima implements PageProcessor {
     //使用 selenium 来模拟用户的登录获取cookie信息
     public void login() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
-        driver.get("https://www.shuaigay.win/forum.php");
 
         driver.findElement(By.name("username")).clear();
 
@@ -143,7 +142,6 @@ public class Mima implements PageProcessor {
         //调用selenium，进行模拟登录
         mima.login();
         Spider.create(mima)
-                .addUrl("https://www.shuaigay.win/thread-1261403-1-1.html")
                 .addPipeline(new ConsolePipeline())
                 .thread(1)
                 .run();

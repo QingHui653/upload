@@ -60,7 +60,7 @@ public class WebMagicController {
         mima.login();
         Spider.create(mima)
                 .addPipeline(mimaPipeline)
-                .thread(10)
+                .thread(5)
                 .run();
     }
 }
