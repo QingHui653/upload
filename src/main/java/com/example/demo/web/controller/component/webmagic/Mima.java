@@ -1,6 +1,9 @@
 package com.example.demo.web.controller.component.webmagic;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.http.HttpHost;
@@ -9,6 +12,12 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -103,7 +112,16 @@ public class Mima implements PageProcessor {
 
     //使用 selenium 来模拟用户的登录获取cookie信息
     public void login() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
+        String os = System.getProperty("os.name");
+        WebDriver driver;
+        System.out.println(os);
+        if(os.contains("Windows")){
+            driver =new ChromeDriver();
+//            driver=new HtmlUnitDriver(true);
+        }else {
+            driver=new HtmlUnitDriver(true);
+        }
+
 
         driver.findElement(By.name("username")).clear();
 
@@ -132,18 +150,19 @@ public class Mima implements PageProcessor {
 
 //        HttpHost httpProxy = new HttpHost("localhost",8888);
 //        site.setHttpProxy(httpProxy);
-        //return site.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1");
         return site;
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Mima mima = new Mima();
-
-        //调用selenium，进行模拟登录
-        mima.login();
-        Spider.create(mima)
-                .addPipeline(new ConsolePipeline())
-                .thread(1)
-                .run();
+        String os = System.getProperty("os.name");
+        System.out.println(os);
+//        Mima mima = new Mima();
+//
+//        //调用selenium，进行模拟登录
+//        mima.login();
+//        Spider.create(mima)
+//                .addPipeline(new ConsolePipeline())
+//                .thread(1)
+//                .run();
     }
 }
