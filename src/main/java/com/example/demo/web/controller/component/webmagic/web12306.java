@@ -48,8 +48,8 @@ public class web12306 {
     private void login(WebDriver driver) throws InterruptedException {
         driver.get("https://kyfw.12306.cn/otn/login/init");
 
-        driver.findElement(By.id("username")).sendKeys("15173961640");
-        driver.findElement(By.id("password")).sendKeys("h7262140");
+        driver.findElement(By.id("username")).sendKeys("");
+        driver.findElement(By.id("password")).sendKeys("");
         Thread.sleep(5000);
         // 手动点击 验证码
         driver.findElement(By.id("loginSub")).click();
