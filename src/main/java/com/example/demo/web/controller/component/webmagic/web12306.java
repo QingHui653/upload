@@ -110,7 +110,7 @@ public class web12306 {
         List<WebElement> trList = queryLeftTable.findElements(By.xpath("//tr"));
 
         for (WebElement tr : trList) {
-            // 查询 全部 td
+            // 查询 全部 td.
             List<WebElement> tdList = tr.findElements(By.xpath("//td"));
             if(onlyG){
                 //高铁 查询 二等座 是否 有

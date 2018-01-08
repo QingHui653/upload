@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 
+import java.net.MalformedURLException;
+
 @RestController
 @RequestMapping("webmagic")
 public class WebMagicController {
@@ -54,13 +56,14 @@ public class WebMagicController {
      */
     @RequestMapping(value = "getNoveToMongo", method = RequestMethod.GET)
     @ApiOperation("nove")
-    public void getNove() throws InterruptedException {
+    public void getNove() throws InterruptedException, MalformedURLException {
         Mima mima = new Mima();
         //调用selenium，进行模拟登录
         mima.login();
         Spider.create(mima)
                 .addPipeline(mimaPipeline)
-                .thread(5)
+                .addUrl("")
+                .thread(1)
                 .run();
     }
 }

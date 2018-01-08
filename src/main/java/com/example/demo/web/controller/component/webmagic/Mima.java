@@ -28,9 +28,9 @@ import us.codecraft.webmagic.selector.Selectable;
 public class Mima implements PageProcessor {
 
     private Site site = Site.me()
-            .setRetryTimes(5)
+            .setRetryTimes(10)
             .setSleepTime(1000)
-            .setTimeOut(5000)
+            .setTimeOut(10*1000)
             .setCycleRetryTimes(10)
             .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36")
             .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
@@ -122,15 +122,16 @@ public class Mima implements PageProcessor {
             driver=new HtmlUnitDriver(true);
         }
 
+        driver.get("");
 
         driver.findElement(By.name("username")).clear();
 
         //在******中填你的用户名
-        driver.findElement(By.name("username")).sendKeys("");
+        driver.findElement(By.name("username")).sendKeys("k7262140");
 
         driver.findElement(By.name("password")).clear();
         //在*******填你密码
-        driver.findElement(By.name("password")).sendKeys("");
+        driver.findElement(By.name("password")).sendKeys("726214");
 
         //模拟点击登录按钮
         driver.findElement(By.xpath("//form[@id='lsform']/div/div/table/tbody/tr[2]/td[3]/button")).click();

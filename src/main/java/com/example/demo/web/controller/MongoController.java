@@ -7,7 +7,14 @@ import com.example.demo.spring.service.service.IMongoService;
 import com.example.demo.web.tool.Pager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -32,6 +39,8 @@ public class MongoController {
 
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoClient mongoClient;
 
     @GetMapping("findAll")
     public <T>List<T> findAll(){
@@ -109,19 +118,24 @@ public class MongoController {
         if(map.get("page")!=null){
             pager.setCurrentPage(Integer.valueOf(map.get("page")));
         }
-        Criteria criteria = new Criteria();
-        if(noveId!=null&&noveId.length()>0){
-            criteria =Criteria.where("noveId").is(noveId);
+        MongoDatabase mongoDatabase = mongoClient.getDatabase("upload");
+        MongoCollection<Document> titles= mongoDatabase.getCollection("title");
+
+
+        long count = titles.count(new Document("tid", new Document("$eq", noveId)));
+
+        FindIterable<Document> titleList = titles
+                .find(new Document("tid", new Document("$eq", noveId)))
+                .sort(Sorts.ascending("index"))
+                .limit(pager.getPageSize())
+                .skip((pager.getCurrentPage()-1)*pager.getPageSize());
+
+        MongoCursor<Document> iterator = titleList.iterator();
+        List list = new ArrayList();
+        while (iterator.hasNext()){
+            Title title =new Gson().fromJson(iterator.next().toJson(),Title.class);
+            list.add(title);
         }
-        Query query = new Query();
-        query.addCriteria(criteria);
-        long count = mongoTemplate.count(query, Title.class);
-
-        query.skip((pager.getCurrentPage()-1)*pager.getPageSize());
-        query.limit(pager.getPageSize());
-        query.with(new Sort("index"));
-        List list = mongoTemplate.find(query,Title.class);
-
         /*pager.setList(list);
         pager.setCount((int)count);*/
         Map retMap = new HashMap();

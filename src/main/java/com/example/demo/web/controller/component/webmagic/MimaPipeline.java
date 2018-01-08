@@ -1,6 +1,5 @@
 package com.example.demo.web.controller.component.webmagic;
 
-import com.example.demo.spring.service.model.Movie;
 import com.example.demo.spring.service.model.nove.Nove;
 import com.example.demo.spring.service.model.nove.Title;
 import org.springframework.beans.factory.annotation.Autowired;
