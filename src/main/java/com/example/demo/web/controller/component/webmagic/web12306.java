@@ -89,8 +89,8 @@ public class web12306 {
         driver.get("https://kyfw.12306.cn/otn/login/init");
 
         //可以不用写在代码中 全部手动输入 即可
-        driver.findElement(By.id("username")).sendKeys("");  //账号
-        driver.findElement(By.id("password")).sendKeys("");  //密码
+        driver.findElement(By.id("username")).sendKeys("15173961640");  //账号
+        driver.findElement(By.id("password")).sendKeys("h7262140");  //密码
         //判断是否还在登陆页面
         driver.findElement(By.id("loginSub")).click();
         while ("https://kyfw.12306.cn/otn/login/init#".equals(driver.getCurrentUrl())){
