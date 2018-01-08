@@ -39,7 +39,8 @@ public class MongoController {
 
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
-    @Autowired
+
+    @Autowired(required = false)
     private MongoClient mongoClient;
 
     @GetMapping("findAll")
