@@ -38,10 +38,10 @@ public class web12306 {
     private Date searchDate = calendar.getTime();
 
     private String searchDateStr = sdf.format(searchDate);
+    // 出发时
+    private Date startDateStr =stf.parse("19:00");
     // 出发时间
-    private Date startDateStr =stf.parse("08:00");
-    // 出发时间
-    private Date endDateStr = stf.parse("12:00");
+    private Date endDateStr = stf.parse("22:00");
 
     //已经 查询 的 车次 数量
     private Map<String,Integer> clickTrainNum = new HashMap<>();
@@ -89,11 +89,10 @@ public class web12306 {
         driver.get("https://kyfw.12306.cn/otn/login/init");
 
         //可以不用写在代码中 全部手动输入 即可
-        driver.findElement(By.id("username")).sendKeys("15173961640");  //账号
-        driver.findElement(By.id("password")).sendKeys("h7262140");  //密码
+        driver.findElement(By.id("username")).sendKeys("");  //账号
+        driver.findElement(By.id("password")).sendKeys("");  //密码
         //判断是否还在登陆页面
-        driver.findElement(By.id("loginSub")).click();
-        while ("https://kyfw.12306.cn/otn/login/init#".equals(driver.getCurrentUrl())){
+        while (!"https://kyfw.12306.cn/otn/index/initMy12306".equals(driver.getCurrentUrl())){
             //等待 js
             Thread.sleep(5000);
             driver.findElement(By.id("loginSub")).click();
@@ -142,8 +141,8 @@ public class web12306 {
         if(onlyG){
             ccList.get(0).click();
         }else if(true){ // D
-            ccList.get(2).click();
-            ccList.get(3).click();
+//            ccList.get(2).click();
+//            ccList.get(3).click();
             ccList.get(4).click();
         }
 
@@ -161,10 +160,11 @@ public class web12306 {
         if(!"https://kyfw.12306.cn/otn/leftTicket/init".equals(driver.getCurrentUrl())){
             search(driver);
         }
+        Thread.sleep(200);
         //点击搜索
         driver.findElement(By.id("query_ticket")).click();
         //等待js
-        Thread.sleep(500);
+        Thread.sleep(200);
 
         WebElement queryLeftTable = driver.findElement(By.id("queryLeftTable"));
         //查询全部 tr
