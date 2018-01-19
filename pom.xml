@@ -40,7 +40,7 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
         <!-- 数据库-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
@@ -48,7 +48,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.34</version>
-		</dependency>
+		</dependency>-->
 		<!--嵌入 式 数据库 支持 H2、HSQL、Derby -->
 		<!--<dependency>
 			<groupId>org.hsqldb</groupId>
