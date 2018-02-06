@@ -25,7 +25,7 @@ public class DemoApplicationTests {
     private MockMvc mvc;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mvc = MockMvcBuilders.standaloneSetup(new UploadController()).build();
     }
 
