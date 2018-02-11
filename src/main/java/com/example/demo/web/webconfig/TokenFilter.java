@@ -37,7 +37,7 @@ public class TokenFilter implements Filter {
         response.setContentType("application/json;charset=UTF-8");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-        String token = httpServletRequest.getHeader("token");
+        String token = httpServletRequest.getHeader("Authorization");
         System.out.println(httpServletRequest.getMethod());
         if(!"OPTIONS".equals(httpServletRequest.getMethod())&&StringUtils.isBlank(token)) {
             PrintWriter out = response.getWriter();
