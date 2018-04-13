@@ -127,11 +127,11 @@ public class Mima implements PageProcessor {
         driver.findElement(By.name("username")).clear();
 
         //在******中填你的用户名
-        driver.findElement(By.name("username")).sendKeys("k7262140");
+        driver.findElement(By.name("username")).sendKeys("");
 
         driver.findElement(By.name("password")).clear();
         //在*******填你密码
-        driver.findElement(By.name("password")).sendKeys("726214");
+        driver.findElement(By.name("password")).sendKeys("");
 
         //模拟点击登录按钮
         driver.findElement(By.xpath("//form[@id='lsform']/div/div/table/tbody/tr[2]/td[3]/button")).click();
