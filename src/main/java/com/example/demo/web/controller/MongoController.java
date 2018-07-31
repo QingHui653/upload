@@ -20,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +41,9 @@ public class MongoController {
 
     @Autowired(required = false)
     private MongoClient mongoClient;
+
+    @Autowired(required = false)
+    private JdbcTemplate jdbcTemplate;
 
     @GetMapping("findAll")
     public Object findAll(){
@@ -142,5 +147,11 @@ public class MongoController {
         retMap.put("data",list);
         retMap.put("msg","");
         return retMap;
+    }
+
+    @GetMapping("findUrl")
+    public Object findUrl(){
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList("select * from tumblr limit 0,20");
+        return maps;
     }
 }
