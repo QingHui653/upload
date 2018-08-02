@@ -61,7 +61,8 @@ public class MongoController {
         query.addCriteria(criteria);
         long count = mongoTemplate.count(query, Movie.class);
 
-        query.skip((pager.getCurrentPage()-1)*pager.getPageSize());
+        Integer skipSize = (pager.getCurrentPage()-1)*pager.getPageSize();
+        query.skip(skipSize.longValue());
         query.limit(pager.getPageSize());
         List list = mongoTemplate.find(query,Movie.class);
 
@@ -100,8 +101,8 @@ public class MongoController {
         Query query = new Query();
         query.addCriteria(criteria);
         long count = mongoTemplate.count(query, Nove.class);
-
-        query.skip((pager.getCurrentPage()-1)*pager.getPageSize());
+        Integer skipSize = (pager.getCurrentPage()-1)*pager.getPageSize();
+        query.skip(skipSize.longValue());
         query.limit(pager.getPageSize());
         List list = mongoTemplate.find(query,Nove.class);
 

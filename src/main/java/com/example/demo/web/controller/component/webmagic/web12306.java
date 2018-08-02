@@ -33,7 +33,7 @@ public class web12306 {
 
     private SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
 
-    private static Calendar calendar = Calendar.getInstance();
+    private Calendar calendar = Calendar.getInstance();
 
     private Date searchDate = calendar.getTime();
 
@@ -48,12 +48,8 @@ public class web12306 {
     //下单 的 次数
     private Integer clickNum = 0;
 
-
-    static{
-        calendar.add(Calendar.DATE,29);
-    }
-
     public web12306() throws ParseException {
+        calendar.add(Calendar.DATE,29);
     }
 
     @Test
@@ -74,11 +70,12 @@ public class web12306 {
             while (hasOrder<1){
                 booming(driver); // click 之后会自动跳转
                 order(driver);
-                Thread.sleep(1*1000);
+                Thread.sleep(1000);
             }
 
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -238,7 +235,7 @@ public class web12306 {
         //等待js
         if(hasTic>0){
             while (!"https://kyfw.12306.cn/otn/confirmPassenger/initDc".equals(driver.getCurrentUrl())){
-                Thread.sleep(3*1000);
+                Thread.sleep(3000);
             }
             //选择 乘客   两个乘客
             //如果只是一位 请注释 2
@@ -246,7 +243,7 @@ public class web12306 {
             driver.findElement(By.id("normalPassenger_1")).click();
             //提交订单
             driver.findElement(By.id("submitOrder_id")).click();
-            Thread.sleep(1*1000);
+            Thread.sleep(1000);
 
             // 难度大 不做了
             /*try {
