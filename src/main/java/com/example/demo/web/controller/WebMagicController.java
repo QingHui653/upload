@@ -2,8 +2,6 @@ package com.example.demo.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.web.controller.component.webmagic.Mima;
-import com.example.demo.web.controller.component.webmagic.MimaPipeline;
 import com.example.demo.web.controller.component.webmagic.MongoSaveMoviePipeline;
 import com.example.demo.web.controller.component.webmagic.MovieProcessor;
 import io.swagger.annotations.ApiOperation;
@@ -25,8 +23,6 @@ public class WebMagicController {
 
     @Autowired(required = false)
     private MongoSaveMoviePipeline mongoSaveMoviePipeline;
-    @Autowired
-    private MimaPipeline mimaPipeline;
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
 
@@ -47,22 +43,6 @@ public class WebMagicController {
                 .addUrl(urls)
                 .addPipeline(new ConsolePipeline())
                 .addPipeline(mongoSaveMoviePipeline)
-                .thread(1)
-                .run();
-    }
-
-    /**
-     * 电影爬虫 存至 mongo
-     */
-    @RequestMapping(value = "getNoveToMongo", method = RequestMethod.GET)
-    @ApiOperation("nove")
-    public void getNove() throws InterruptedException, MalformedURLException {
-        Mima mima = new Mima();
-        //调用selenium，进行模拟登录
-        mima.login();
-        Spider.create(mima)
-                .addPipeline(mimaPipeline)
-                .addUrl("")
                 .thread(1)
                 .run();
     }
