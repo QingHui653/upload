@@ -40,6 +40,8 @@ public class LoginController {
     //jwt 登陆
     // 还 需要 一个  filter 来判断 jwt 的 过期 时间
     // 前台 随 请求 放 在 header 部分
+    //TODO 还需要 一个 refreshToken 存储在 服务端
+    //当 token 过去，refreshToken未过期，可以使用 refreshToken 刷新token
     @PostMapping("jwtlogin")
     public Object jwtlogin(HttpServletRequest request, String userName, String passWord) {
         if ("admin".equals(userName) && "123".equals(passWord)) {
