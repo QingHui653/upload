@@ -152,6 +152,13 @@
 			<artifactId>java-jwt</artifactId>
 			<version>3.2.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>4.1.19</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/io.grpc/grpc-all -->
 		<dependency>
