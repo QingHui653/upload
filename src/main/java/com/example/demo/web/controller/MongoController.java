@@ -12,9 +12,12 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.Document;
+import org.bson.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -28,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+
+import static com.mongodb.client.model.Accumulators.sum;
 
 @RestController
 @Slf4j
@@ -133,6 +138,22 @@ public class MongoController {
                 .sort(Sorts.ascending("index"))
                 .limit(pager.getPageSize())
                 .skip((pager.getCurrentPage()-1)*pager.getPageSize());
+
+        BsonArray cond = new BsonArray();
+        BsonArray eq = new BsonArray();
+        eq.add(new BsonString("$idcard.status"));
+        eq.add(new BsonString("normal"));
+        cond.add(new BsonDocument("$eq", eq));
+        cond.add(new BsonInt64(0));
+        cond.add(new BsonInt64(1));
+
+
+        titles.aggregate(Arrays.asList(Aggregates.group("$company_id", sum("count", new BsonDocument("$cond", cond)))));
+
+        titles.aggregate(Arrays.asList(
+                Aggregates.match(Filters.eq("categories", "Bakery")),
+                Aggregates.group("$stars", Accumulators.sum("count", 1))
+        ));
 
         MongoCursor<Document> iterator = titleList.iterator();
         List list = new ArrayList();
