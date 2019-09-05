@@ -11,5 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: maven build
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run:| 
+        maven build
+        docker build . --file Dockerfile --tag my-image-name:$(date +%s)
