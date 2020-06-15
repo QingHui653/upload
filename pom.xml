@@ -172,6 +172,13 @@
             <version>26.0-jre</version>
         </dependency>
 
+		<!--api加密-->
+		<dependency>
+			<groupId>cn.shuibo</groupId>
+			<artifactId>rsa-encrypt-body-spring-boot</artifactId>
+			<version>1.0.1.RELEASE</version>
+		</dependency>
+
 
     </dependencies>
 

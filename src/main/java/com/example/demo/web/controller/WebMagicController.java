@@ -1,17 +1,14 @@
 package com.example.demo.web.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import cn.shuibo.annotation.Decrypt;
+import cn.shuibo.annotation.Encrypt;
+import com.example.demo.spring.service.model.Movie;
 import com.example.demo.web.controller.component.webmagic.MongoSaveMoviePipeline;
 import com.example.demo.web.controller.component.webmagic.MovieProcessor;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 
@@ -45,5 +42,22 @@ public class WebMagicController {
                 .addPipeline(mongoSaveMoviePipeline)
                 .thread(1)
                 .run();
+    }
+
+    @Encrypt
+    @GetMapping("/encryption")
+    @ResponseBody
+    public Movie encryption(){
+        Movie testBean = new Movie();
+        testBean.setMovieName("shuibo.cn");
+        testBean.setId("18");
+        return testBean;
+    }
+
+    @Decrypt
+    @PostMapping("/decryption")
+    @ResponseBody
+    public String decryption(@RequestBody Movie testBean){
+        return testBean.toString();
     }
 }
