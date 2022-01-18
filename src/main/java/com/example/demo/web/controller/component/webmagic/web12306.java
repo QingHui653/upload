@@ -1,10 +1,12 @@
 package com.example.demo.web.controller.component.webmagic;
 
+import com.google.common.collect.Lists;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.junit.Test;
 
@@ -54,12 +56,20 @@ public class web12306 {
 
     @Test
     public void doom() throws ParseException {
+        System.setProperty("webdriver.chrome.driver","D:\\chromedriver_win32\\chromedriver.exe");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setExperimentalOption("excludeSwitches", Lists.newArrayList("enable-automation"));
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("disable-infobars");
+//        chromeOptions.addArguments("--headless");
+
         try {
             String os = System.getProperty("os.name");
             WebDriver driver;
             System.out.println(os);
             if(os.contains("Windows")){
-                driver =new ChromeDriver();
+                driver =new ChromeDriver(chromeOptions);
             }else {
                 driver=new HtmlUnitDriver(true);
             }
@@ -83,21 +93,25 @@ public class web12306 {
      * 登录
      */
     private void login(WebDriver driver) throws InterruptedException {
-        driver.get("https://kyfw.12306.cn/otn/login/init");
+        driver.get("https://kyfw.12306.cn/otn/resources/login.html");
+        JavascriptExecutor driver_js= ((JavascriptExecutor) driver);
+        driver_js.executeScript("Object.defineProperty(navigator, 'webdriver', {\n" +
+                "      get: () => undefined\n" +
+                "    })");
 
         //可以不用写在代码中 全部手动输入 即可
-        driver.findElement(By.id("username")).sendKeys("");  //账号
-        driver.findElement(By.id("password")).sendKeys("");  //密码
+        driver.findElement(By.id("J-userName")).sendKeys("");  //账号
+        driver.findElement(By.id("J-password")).sendKeys("");  //密码
         //判断是否还在登陆页面
-        while (!"https://kyfw.12306.cn/otn/index/initMy12306".equals(driver.getCurrentUrl())){
+        while (!"https://kyfw.12306.cn/otn/view/index.html".equals(driver.getCurrentUrl())){
             //等待 js
             Thread.sleep(5000);
-            driver.findElement(By.id("loginSub")).click();
+            driver.findElement(By.id("J-login")).click();
             Thread.sleep(4000);
         }
 
         //是否进入我的 12306 页面
-        while (!"https://kyfw.12306.cn/otn/index/initMy12306".equals(driver.getCurrentUrl())){
+        while (!"https://kyfw.12306.cn/otn/view/index.html".equals(driver.getCurrentUrl())){
             Thread.sleep(3000);
         }
     }
